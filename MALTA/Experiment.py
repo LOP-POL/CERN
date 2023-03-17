@@ -13,15 +13,15 @@ class Event():
         self.steps = steps
         self.arrOfSteps = []
     
-    #Since we want to control the numer of steps we will create
+    #Since we want to control the number of steps we will create
     #a certian number of steps in a range 
     #and assign them each a position
     # In the same function if a hit is gretae than the thrshold it will be added to the hits array
-    def CreateSteps(self):
+    def CreateSteps(self,pixels):
         for n in range(self.steps):
             n = Step() 
             # This makes sure that the ranom number generated is going to be either 0 to 256 
-            forP = random.randrange(10,256)
+            forP = random.randrange(10,math.sqrt(pixels))
             # the array is going to be random
 
             #The position is going to be for coordinates x0,x1,y0,y1,z0,z1
@@ -35,8 +35,8 @@ class Event():
             n.charge = math.floor(random.random()*500)
 
             self.arrOfSteps.append(n)
-            # print(n.position)
-            # print(n.charge)
+            print(n.position)
+            print(n.charge)
 
             #A step is added to the hits array if its charge is greater than the threshold
 
@@ -45,17 +45,22 @@ class Event():
                 step.hit=True
                 self.hits.append(step)
                 # print(step.charge)
+        print("Number of hits")
         print(len(self.hits))
-    def CreateGroups(self):
-        main32 = np.zeros((1,65536),dtype=int)
-        main322 = main32.reshape(256,256)
+        
+    def CreateGroups(self,pixels):
+        main32 = np.zeros((1,pixels),dtype=int)
+        main322 = main32.reshape(math.floor(math.sqrt(pixels)),math.floor(math.sqrt(pixels)))
         for each in self.hits:
-            main322[tuple(each.position[0])] = 1
-            return main322
+            main322[tuple(each.position[0])]=1
+        return main322
 
         # #for debugging
-        print("Number of steps\n")
-        print(len(self.arrOfSteps))
+        # print("Number of steps\n")
+        # print(len(self.arrOfSteps))
+       
+        # print(len(self.hits))
+        # print(self.name)
         # print("The Number of hits:\n")
         
 
