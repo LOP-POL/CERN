@@ -54,8 +54,8 @@ class Event():
             return main322
 
         # #for debugging
-        # print("Number of steps\n")
-        # print(len(self.arrOfSteps))
+        print("Number of steps\n")
+        print(len(self.arrOfSteps))
         # print("The Number of hits:\n")
         
 
