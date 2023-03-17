@@ -6,4 +6,8 @@ def Start_Of_Event(name,thr,steps=8000):
     
     return print(Ev.CreateGroups())
 
-Start_Of_Event("Sigma",400)
+
+askName = input("What is the name of the experiment:\n")
+askThreshold = input("What is the threshold:\n")
+askSteps = input("How many steps would you like to use\n")
+Start_Of_Event(askName,int(askThreshold),askSteps)
