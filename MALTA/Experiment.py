@@ -12,16 +12,17 @@ class Event():
         self.hits = []
         self.steps = steps
         self.arrOfSteps = []
+        self.pixel = np.reshape(np.zeros((1,262144),dtype=int),(math.floor(math.sqrt(262144)),math.floor(math.sqrt(262144))))
     
     #Since we want to control the number of steps we will create
     #a certian number of steps in a range 
     #and assign them each a position
     # In the same function if a hit is gretae than the thrshold it will be added to the hits array
-    def CreateSteps(self,pixels):
+    def CreateSteps(self):
         for n in range(self.steps):
             n = Step() 
             # This makes sure that the ranom number generated is going to be either 0 to 256 
-            forP = random.randrange(10,math.sqrt(pixels))
+            forP = random.randrange(10,math.sqrt(262144))
             # the array is going to be random
 
             #The position is going to be for coordinates x0,x1,y0,y1,z0,z1
@@ -35,8 +36,6 @@ class Event():
             n.charge = math.floor(random.random()*500)
 
             self.arrOfSteps.append(n)
-            print(n.position)
-            print(n.charge)
 
             #A step is added to the hits array if its charge is greater than the threshold
 
@@ -48,22 +47,21 @@ class Event():
         print("Number of hits")
         print(len(self.hits))
         
-    def CreateGroups(self,pixels):
-        main32 = np.zeros((1,pixels),dtype=int)
-        main322 = main32.reshape(math.floor(math.sqrt(pixels)),math.floor(math.sqrt(pixels)))
+    def CreateGroups(self):
         for each in self.hits:
-            main322[tuple(each.position[0])]=1
-        return main322
-
-        # #for debugging
-        # print("Number of steps\n")
-        # print(len(self.arrOfSteps))
-       
-        # print(len(self.hits))
-        # print(self.name)
-        # print("The Number of hits:\n")
-        
-
+            self.pixel[tuple(each.position[0])]=1
+        return self.pixel
+    
+    def splitting(self):
+        arr = self.pixel.ravel()
+        groupsColRow = []
+        group = np.hsplit(arr,self.pixel.size/16)
+        for i in group:
+            n = np.array(i).reshape(8,2)
+            groupsColRow.append(n)
+        group = groupsColRow
+        print(group[0])
+        return group[0]
 if __name__ == "__main__":
 
     #This is a test to see how the code will work
